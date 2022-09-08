@@ -1,0 +1,50 @@
+.footer {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.post-content {
+  padding: 2rem;
+  margin-bottom: 1rem;
+
+  img {
+    max-width: 100%;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.post-title {
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+}
+
+.navbar {
+  margin-bottom: 1rem;
+}
+
+.post-preview {
+  max-height: 300px;
+  overflow: hidden;
+  position: relative;
+
+  .post-preview-shadow {
+    position: absolute;
+    bottom: 0;
+    left: -300px;
+    width: calc(100% + 600px);
+    height: 600px;
+    box-shadow: inset 0 0 30px black;
+  }
+}
+
+.card {
+  margin-bottom: 1rem;
+}
+
+.pagination {
+  justify-content: center;
+}

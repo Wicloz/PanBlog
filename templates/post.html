@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="bg-light rounded post-title">
+  <h1>{{ title }}</h1>
+  <span class="text-muted">{{ date }}</span>
+</div>
+<div class="bg-light rounded post-content">
+  {{ document }}
+</div>
+{% endblock %}
