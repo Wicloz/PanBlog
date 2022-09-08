@@ -4,20 +4,9 @@ from pathlib import Path
 
 class PanBlogConfig:
     def __init__(self):
-        self.data = YAML().load(Path('config.yml'))
+        data = YAML(typ='safe').load(Path('config.yml'))
 
-    @property
-    def posts(self):
-        return Path(self.data['posts'])
-
-    @property
-    def output(self):
-        return Path(self.data['output'])
-
-    @property
-    def author(self):
-        return Path(self.data['author'])
-
-    @property
-    def development(self):
-        return not self.data['production']
+        self.posts = Path(data.get('posts', 'posts'))
+        self.output = Path(data.get('output', 'output'))
+        self.author = data.get('author', '')
+        self.development = not data.get('production', True)
