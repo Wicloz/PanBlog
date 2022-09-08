@@ -87,7 +87,7 @@ if __name__ == '__main__':
                 'link': 'posts/' + folder
             })
 
-        if len(history) == 9:
+        if len(history) == 5:
             process()
             history = []
             count += 1
