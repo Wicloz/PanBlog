@@ -10,6 +10,8 @@ from hashlib import sha384
 from htmlmin import minify
 from datetime import date
 
+PACKAGE = Path(__file__).parent
+
 
 def write(content, location):
     location = str(location)
@@ -24,7 +26,7 @@ def write(content, location):
 
 
 if __name__ == '__main__':
-    templates = Environment(loader=FileSystemLoader('templates'))
+    templates = Environment(loader=FileSystemLoader(PACKAGE / 'templates'))
     config = PanBlogConfig()
 
     if config.output.exists():
@@ -36,13 +38,13 @@ if __name__ == '__main__':
         prefix = 'file://' + str(config.output.resolve()) + '/'
 
     css = {}
-    for path in (Path('resources/bootstrap.scss'), Path('resources/custom.scss')):
+    for path in (PACKAGE / 'resources/bootstrap.scss', PACKAGE / 'resources/custom.scss'):
         data = sass.compile(filename=str(path), output_style='compressed')
         checksum = sha384(data.encode('UTF8')).hexdigest()
         write(data, config.output / (checksum + '.css'))
         css[path.stem] = checksum + '.css'
 
-    with open('resources/mathjax/es5/tex-svg.js', 'r') as fp:
+    with open(PACKAGE / 'resources/mathjax/es5/tex-svg.js', 'r') as fp:
         data = fp.read()
     checksum = sha384(data.encode('UTF8')).hexdigest()
     write(data, config.output / (checksum + '.js'))
