@@ -1,16 +1,13 @@
-from jinja2 import Environment, FileSystemLoader
 import gzip
 from pathlib import Path
 from shutil import rmtree
 import pypandoc
 from slugify import slugify
-from config import PanBlogConfig
+from globals import PanBlogConfig, PanBlogTemplates, PanBlogPackage
 import sass
 from hashlib import sha384
 from htmlmin import minify
 from datetime import date
-
-PACKAGE = Path(__file__).parent
 
 
 def write(content, location):
@@ -26,8 +23,8 @@ def write(content, location):
 
 
 if __name__ == '__main__':
-    templates = Environment(loader=FileSystemLoader(PACKAGE / 'templates'))
-    config = PanBlogConfig()
+    templates = PanBlogTemplates
+    config = PanBlogConfig
 
     if config.output.exists():
         rmtree(config.output)
@@ -38,13 +35,13 @@ if __name__ == '__main__':
         prefix = 'file://' + str(config.output.resolve()) + '/'
 
     css = {}
-    for path in (PACKAGE / 'resources/bootstrap.scss', PACKAGE / 'resources/custom.scss'):
+    for path in (PanBlogPackage / 'resources/bootstrap.scss', PanBlogPackage / 'resources/custom.scss'):
         data = sass.compile(filename=str(path), output_style='compressed')
         checksum = sha384(data.encode('UTF8')).hexdigest()
         write(data, config.output / (checksum + '.css'))
         css[path.stem] = checksum + '.css'
 
-    with open(PACKAGE / 'resources/mathjax/es5/tex-svg.js', 'r') as fp:
+    with open(PanBlogPackage / 'resources/mathjax/es5/tex-svg.js', 'r') as fp:
         data = fp.read()
     checksum = sha384(data.encode('UTF8')).hexdigest()
     write(data, config.output / (checksum + '.js'))
