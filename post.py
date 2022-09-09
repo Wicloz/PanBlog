@@ -16,10 +16,9 @@ class PanBlogPost:
 
     def process(self):
         created = self.created.strftime('%B %d, %Y')
-        soup = BeautifulSoup(run(
-            ('pandoc', '--mathml', '--to=html', self.input),
-            capture_output=True, universal_newlines=True, encoding='UTF8',
-        ).stdout, 'lxml')
+        soup = str(BeautifulSoup(run(
+            ('pandoc', '--mathml', '--to=html', self.input), capture_output=True,
+        ).stdout, 'lxml'))
 
         if (self.input.parent / self.input.stem).is_dir():
             copytree(self.input.parent / self.input.stem, self.output)
@@ -27,5 +26,5 @@ class PanBlogPost:
         page = render('post.html', document=soup, title=self.title, date=created)
         write(page, self.output / 'index.html')
 
-        water = BeautifulSoup(str(soup)[:10000], 'lxml')
+        water = str(BeautifulSoup(soup[:10000], 'lxml'))
         return render('preview.html', document=water, title=self.title, date=created, link=self.link)
