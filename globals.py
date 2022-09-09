@@ -9,8 +9,7 @@ class _PanBlogConfigClass:
 
         self.posts = Path(data.get('posts', 'posts'))
         self.output = Path(data.get('output', 'output'))
-        self.author = data.get('author', '')
-        self.development = not data.get('production', True)
+        self.author = data.get('author', 'Wicloz')
 
 
 PanBlogPackage = Path(__file__).parent

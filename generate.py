@@ -30,10 +30,6 @@ if __name__ == '__main__':
         rmtree(config.output)
     config.output.mkdir()
 
-    prefix = '/'
-    if config.development:
-        prefix = 'file://' + str(config.output.resolve()) + '/'
-
     css = {}
     for path in (PanBlogPackage / 'resources/bootstrap.scss', PanBlogPackage / 'resources/custom.scss'):
         data = sass.compile(filename=str(path), output_style='compressed')
@@ -53,7 +49,6 @@ if __name__ == '__main__':
             name=name,
             author=config.author,
             css=css, js=js,
-            prefix=prefix,
             **kwargs,
         ))
 
