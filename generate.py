@@ -1,10 +1,8 @@
 from shutil import rmtree
-import pypandoc
-from slugify import slugify
 from globals import PanBlogConfig, PanBlogPackage, write, render, add_template_global
 import sass
 from hashlib import sha384
-from datetime import date
+from post import PanBlogPost
 
 if __name__ == '__main__':
     config = PanBlogConfig
@@ -37,22 +35,13 @@ if __name__ == '__main__':
         write(page, config.output / str(count) / 'index.html')
 
 
-    for post in reversed(list(config.posts.glob('*/*/*/*'))):
-        parts = post.parent.parts
-
-        html = pypandoc.convert_file(str(post), 'html5', extra_args=['--mathjax'])
-        created = date(int(parts[-3]), int(parts[-2]), int(parts[-1])).strftime('%B %d, %Y')
-        page = render('post.html', post.stem, document=html, title=post.stem, date=created)
-        folder = '/'.join(parts[-3:]) + '/' + slugify(post.stem)
-        write(page, config.output / 'posts' / folder / 'index.html')
+    for file in reversed(list(config.posts.glob('*/*/*/*'))):
+        parts = file.parts
+        post = PanBlogPost(parts[-4], parts[-3], parts[-2], parts[-1])
+        preview = post.process()
 
         if count < 10:
-            history.append({
-                'html': html,
-                'title': post.stem,
-                'date': created,
-                'link': 'posts/' + folder
-            })
+            history.append(preview)
 
         if len(history) == 5:
             process()

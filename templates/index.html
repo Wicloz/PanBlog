@@ -41,23 +41,9 @@
 
 {% endblock %}
 {% block content %}
-
 {{ self.pagination() }}
 {% for post in posts %}
-<div class="card">
-  <div class="card-header">
-    <h2 class="card-title">{{ post.title }}</h2>
-    <h6 class="card-subtitle text-muted">{{ post.date }}</h6>
-  </div>
-  <div class="card-body post-preview">
-    <span class="post-preview-shadow"></span>
-    {{ post.html }}
-  </div>
-  <div class="card-footer">
-    <a href="/{{ post.link }}" class="card-link">Read More</a>
-  </div>
-</div>
+{{ post }}
 {% endfor %}
 {{ self.pagination() }}
-
 {% endblock %}
