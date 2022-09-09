@@ -19,13 +19,6 @@ if __name__ == '__main__':
         css[path.stem] = checksum + '.css'
     add_template_global('css', css)
 
-    with open(PanBlogPackage / 'resources/mathjax/es5/tex-svg.js', 'r') as fp:
-        data = fp.read()
-    checksum = sha384(data.encode('UTF8')).hexdigest()
-    write(data, config.output / (checksum + '.js'))
-    js = {'mathjax': checksum + '.js'}
-    add_template_global('js', js)
-
     history = []
     count = 1
 

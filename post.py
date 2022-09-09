@@ -13,10 +13,14 @@ class PanBlogPost:
         self.output = PanBlogConfig.output / self.link[1:]
 
     def process(self):
-        html = pypandoc.convert_file(str(self.input), 'html5')
-        datestring = self.created.strftime('%B %d, %Y')
+        html = pypandoc.convert_file(
+            source_file=str(self.input),
+            to='html5',
+            extra_args=['--mathjax'],
+        )
+        created = self.created.strftime('%B %d, %Y')
 
-        page = render('post.html', document=html, title=self.title, date=datestring)
+        page = render('post.html', document=html, title=self.title, date=created)
         write(page, self.output / 'index.html')
 
-        return render('preview.html', document=html, title=self.title, date=datestring, link=self.link)
+        return render('preview.html', document=html, title=self.title, date=created, link=self.link)

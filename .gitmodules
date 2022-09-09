@@ -1,6 +1,3 @@
 [submodule "resources/bootstrap"]
 	path = resources/bootstrap
 	url = https://github.com/twbs/bootstrap.git
-[submodule "resources/mathjax"]
-	path = resources/mathjax
-	url = https://github.com/mathjax/MathJax.git
