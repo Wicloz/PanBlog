@@ -17,8 +17,8 @@ def write(content, location):
         fp.write(content)
 
 
-def render(page, name, **kwargs):
-    return minify(PanBlogTemplates.get_template(page).render(name=name, **kwargs))
+def render(page, **kwargs):
+    return minify(PanBlogTemplates.get_template(page).render(**kwargs))
 
 
 def add_template_global(key, value):

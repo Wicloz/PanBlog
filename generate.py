@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
 
     def process():
-        page = render('index.html', 'Recent Posts', posts=history, current=count)
+        page = render('index.html', title='Recent Posts', posts=history, current=count)
         write(page, config.output / str(count) / 'index.html')
 
 
