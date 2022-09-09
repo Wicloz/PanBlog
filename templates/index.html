@@ -3,38 +3,38 @@
 
 <nav>
   <ul class="pagination">
-    <li class="page-item {% if page == 1 %}disabled{% endif %}">
-      <a class="page-link" href="/{{ page - 1 }}/">Previous</a>
+    <li class="page-item {% if current == 1 %}disabled{% endif %}">
+      <a class="page-link" href="/{{ current - 1 }}/">Previous</a>
     </li>
-    <li class="page-item {% if page == 1 %}active{% endif %}">
+    <li class="page-item {% if current == 1 %}active{% endif %}">
       <a class="page-link" href="/1/">1</a>
     </li>
-    <li class="page-item {% if page == 2 %}active{% endif %}">
+    <li class="page-item {% if current == 2 %}active{% endif %}">
       <a class="page-link" href="/2/">2</a>
     </li>
-    <li class="page-item {% if page == 3 %}active{% endif %}">
+    <li class="page-item {% if current == 3 %}active{% endif %}">
       <a class="page-link" href="/3/">3</a>
     </li>
-    <li class="page-item {% if page == 4 %}active{% endif %}">
+    <li class="page-item {% if current == 4 %}active{% endif %}">
       <a class="page-link" href="/4/">4</a>
     </li>
-    <li class="page-item {% if page == 5 %}active{% endif %}">
+    <li class="page-item {% if current == 5 %}active{% endif %}">
       <a class="page-link" href="/5/">5</a>
     </li>
-    <li class="page-item {% if page == 6 %}active{% endif %}">
+    <li class="page-item {% if current == 6 %}active{% endif %}">
       <a class="page-link" href="/6/">6</a>
     </li>
-    <li class="page-item {% if page == 7 %}active{% endif %}">
+    <li class="page-item {% if current == 7 %}active{% endif %}">
       <a class="page-link" href="/7/">7</a>
     </li>
-    <li class="page-item {% if page == 8 %}active{% endif %}">
+    <li class="page-item {% if current == 8 %}active{% endif %}">
       <a class="page-link" href="/8/">8</a>
     </li>
-    <li class="page-item {% if page == 9 %}active{% endif %}">
+    <li class="page-item {% if current == 9 %}active{% endif %}">
       <a class="page-link" href="/9/">9</a>
     </li>
-    <li class="page-item {% if page == 9 %}disabled{% endif %}">
-      <a class="page-link" href="/{{ page + 1 }}/">Next</a>
+    <li class="page-item {% if current == 9 %}disabled{% endif %}">
+      <a class="page-link" href="/{{ current + 1 }}/">Next</a>
     </li>
   </ul>
 </nav>

@@ -1,29 +1,12 @@
-import gzip
-from pathlib import Path
 from shutil import rmtree
 import pypandoc
 from slugify import slugify
-from globals import PanBlogConfig, PanBlogTemplates, PanBlogPackage
+from globals import PanBlogConfig, PanBlogPackage, write, render, add_template_global
 import sass
 from hashlib import sha384
-from htmlmin import minify
 from datetime import date
 
-
-def write(content, location):
-    location = str(location)
-    content = content.encode('UTF8')
-
-    Path(location).parent.mkdir(parents=True, exist_ok=True)
-
-    with open(location, 'wb') as fp:
-        fp.write(content)
-    with gzip.open(location + '.gz', 'wb') as fp:
-        fp.write(content)
-
-
 if __name__ == '__main__':
-    templates = PanBlogTemplates
     config = PanBlogConfig
 
     if config.output.exists():
@@ -36,29 +19,21 @@ if __name__ == '__main__':
         checksum = sha384(data.encode('UTF8')).hexdigest()
         write(data, config.output / (checksum + '.css'))
         css[path.stem] = checksum + '.css'
+    add_template_global('css', css)
 
     with open(PanBlogPackage / 'resources/mathjax/es5/tex-svg.js', 'r') as fp:
         data = fp.read()
     checksum = sha384(data.encode('UTF8')).hexdigest()
     write(data, config.output / (checksum + '.js'))
     js = {'mathjax': checksum + '.js'}
-
-
-    def render(template, name, **kwargs):
-        return minify(templates.get_template(template).render(
-            name=name,
-            author=config.author,
-            css=css, js=js,
-            **kwargs,
-        ))
-
+    add_template_global('js', js)
 
     history = []
     count = 1
 
 
     def process():
-        page = render('index.html', 'Recent Posts', posts=history, page=count)
+        page = render('index.html', 'Recent Posts', posts=history, current=count)
         write(page, config.output / str(count) / 'index.html')
 
 

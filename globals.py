@@ -1,6 +1,28 @@
 from ruamel.yaml import YAML
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
+from htmlmin import minify
+import gzip
+
+
+def write(content, location):
+    location = Path(location)
+    content = content.encode('UTF8')
+
+    location.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(location, 'wb') as fp:
+        fp.write(content)
+    with gzip.open(str(location) + '.gz', 'wb') as fp:
+        fp.write(content)
+
+
+def render(page, name, **kwargs):
+    return minify(PanBlogTemplates.get_template(page).render(name=name, **kwargs))
+
+
+def add_template_global(key, value):
+    PanBlogTemplates.globals[key] = value
 
 
 class _PanBlogConfigClass:
@@ -15,3 +37,4 @@ class _PanBlogConfigClass:
 PanBlogPackage = Path(__file__).parent
 PanBlogConfig = _PanBlogConfigClass()
 PanBlogTemplates = Environment(loader=FileSystemLoader(PanBlogPackage / 'templates'))
+add_template_global('author', PanBlogConfig.author)
