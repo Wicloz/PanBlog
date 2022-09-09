@@ -1,21 +1,15 @@
-from shutil import rmtree
+from shutil import rmtree, copytree
 from globals import PanBlogConfig, PanBlogPackage, write, render, add_template_global
 import sass
 from hashlib import sha384
 from post import PanBlogPost
 
 if __name__ == '__main__':
-    config = PanBlogConfig
-
-    if config.output.exists():
-        rmtree(config.output)
-    config.output.mkdir()
-
     css = {}
     for path in (PanBlogPackage / 'resources/bootstrap.scss', PanBlogPackage / 'resources/custom.scss'):
         data = sass.compile(filename=str(path), output_style='compressed')
         checksum = sha384(data.encode('UTF8')).hexdigest()
-        write(data, config.output / (checksum + '.css'))
+        write(data, PanBlogConfig.build / (checksum + '.css'))
         css[path.stem] = checksum + '.css'
     add_template_global('css', css)
 
@@ -25,10 +19,10 @@ if __name__ == '__main__':
 
     def process():
         page = render('index.html', title='Recent Posts', posts=history, current=count)
-        write(page, config.output / str(count) / 'index.html')
+        write(page, PanBlogConfig.build / str(count) / 'index.html')
 
 
-    for file in reversed(list(config.posts.glob('*/*/*/*'))):
+    for file in reversed(list(PanBlogConfig.posts.glob('*/*/*/*'))):
         if not file.is_file():
             continue
 
@@ -47,3 +41,7 @@ if __name__ == '__main__':
     if history:
         process()
     del history
+
+    if PanBlogConfig.output.exists():
+        rmtree(PanBlogConfig.output)
+    copytree(PanBlogConfig.build, PanBlogConfig.output)

@@ -12,7 +12,7 @@ class PanBlogPost:
         self.created = date(int(year), int(month), int(day))
         self.title = file.split('.', 1)[0]
         self.link = f'/posts/{year}/{month}/{day}/{slugify(self.title)}/'
-        self.output = PanBlogConfig.output / self.link[1:]
+        self.output = PanBlogConfig.build / self.link[1:]
 
     def process(self):
         created = self.created.strftime('%B %d, %Y')

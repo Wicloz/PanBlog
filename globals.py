@@ -3,6 +3,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 from htmlmin import minify
 import gzip
+from tempfile import TemporaryDirectory
 
 
 def write(content, location):
@@ -32,6 +33,9 @@ class _PanBlogConfigClass:
         self.posts = Path(data.get('posts', 'posts'))
         self.output = Path(data.get('output', 'output'))
         self.author = data.get('author', 'Wicloz')
+
+        self._temp = TemporaryDirectory()
+        self.build = Path(self._temp.name)
 
 
 PanBlogPackage = Path(__file__).parent
