@@ -3,6 +3,7 @@ from datetime import date
 from slugify import slugify
 from subprocess import run
 from shutil import copytree
+from bs4 import BeautifulSoup
 
 
 class PanBlogPost:
@@ -15,15 +16,16 @@ class PanBlogPost:
 
     def process(self):
         created = self.created.strftime('%B %d, %Y')
-        html = run(
+        soup = BeautifulSoup(run(
             ('pandoc', '--mathml', '--to=html', self.input),
             capture_output=True, universal_newlines=True, encoding='UTF8',
-        ).stdout
+        ).stdout, 'lxml')
 
         if (self.input.parent / self.input.stem).is_dir():
             copytree(self.input.parent / self.input.stem, self.output)
 
-        page = render('post.html', document=html, title=self.title, date=created)
+        page = render('post.html', document=soup, title=self.title, date=created)
         write(page, self.output / 'index.html')
 
-        return render('preview.html', document=html, title=self.title, date=created, link=self.link)
+        water = BeautifulSoup(str(soup)[:10000], 'lxml')
+        return render('preview.html', document=water, title=self.title, date=created, link=self.link)
