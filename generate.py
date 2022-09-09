@@ -29,6 +29,9 @@ if __name__ == '__main__':
 
 
     for file in reversed(list(config.posts.glob('*/*/*/*'))):
+        if not file.is_file():
+            continue
+
         parts = file.parts
         post = PanBlogPost(parts[-4], parts[-3], parts[-2], parts[-1])
         preview = post.process()

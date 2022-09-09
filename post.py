@@ -1,7 +1,8 @@
 from globals import PanBlogConfig, render, write
 from datetime import date
 from slugify import slugify
-import pypandoc
+from subprocess import run
+from shutil import copytree
 
 
 class PanBlogPost:
@@ -13,12 +14,14 @@ class PanBlogPost:
         self.output = PanBlogConfig.output / self.link[1:]
 
     def process(self):
-        html = pypandoc.convert_file(
-            source_file=str(self.input),
-            to='html5',
-            extra_args=['--mathjax'],
-        )
         created = self.created.strftime('%B %d, %Y')
+        html = run(
+            ('pandoc', '--mathml', '--to=html', self.input),
+            capture_output=True, universal_newlines=True, encoding='UTF8',
+        ).stdout
+
+        if (self.input.parent / self.input.stem).is_dir():
+            copytree(self.input.parent / self.input.stem, self.output)
 
         page = render('post.html', document=html, title=self.title, date=created)
         write(page, self.output / 'index.html')
