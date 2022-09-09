@@ -1,0 +1,10 @@
+@import "bootstrap/scss/functions";
+
+$body-bg: black;
+$body-color: white;
+
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+
+$card-bg: $dark;
+$card-border-radius: 0;

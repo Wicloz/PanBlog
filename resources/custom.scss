@@ -1,3 +1,5 @@
+@import "variables";
+
 .footer {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -20,6 +22,8 @@
 .post-title {
   padding: 1rem 2rem;
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .navbar {
@@ -37,7 +41,7 @@
     left: -300px;
     width: calc(100% + 600px);
     height: 600px;
-    box-shadow: inset 0 0 30px black;
+    box-shadow: inset 0 0 60px black;
   }
 }
 
