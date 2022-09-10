@@ -45,3 +45,5 @@ if __name__ == '__main__':
     if PanBlogConfig.output.exists():
         rmtree(PanBlogConfig.output)
     copytree(PanBlogConfig.build, PanBlogConfig.output)
+
+    (PanBlogConfig.output / 'index.html').symlink_to(PanBlogConfig.output / '1/index.html')
