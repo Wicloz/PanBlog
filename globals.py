@@ -28,11 +28,11 @@ class _PanBlogConfigClass:
 class _PanBlogBuildClass:
     def __init__(self):
         self._temp = TemporaryDirectory()
-        self.build = Path(self._temp.name)
+        self.location = Path(self._temp.name)
 
     @contextmanager
     def write(self, relative, encoding, like):
-        output = self.build / relative
+        output = self.location / relative
         output.parent.mkdir(parents=True, exist_ok=True)
         output = str(output)
 
@@ -49,6 +49,49 @@ class _PanBlogBuildClass:
         if like is not None:
             copystat(like, output)
             copystat(like, output + '.gz')
+
+    def deploy(self, to):
+        moved = set()
+
+        for file in self.location.glob('**/*'):
+            if not file.is_file():
+                continue
+            file = file.relative_to(self.location)
+
+            if not (to / file).exists():
+                (self.location / file).rename(to / file)
+                moved.add(file)
+                continue
+
+            changed = False
+            with open(self.location / file, 'rb') as src, open(to / file, 'rb') as dst:
+                while True:
+                    src_data = src.read(65536)
+                    dst_data = dst.read(65536)
+                    if src_data != dst_data:
+                        changed = True
+                        break
+                    if not src_data or not dst_data:
+                        break
+
+            if changed:
+                (to / file).unlink()
+                (self.location / file).rename(to / file)
+                moved.add(file)
+
+        for file in to.glob('**/*'):
+            if not file.is_file():
+                continue
+            file = file.relative_to(to)
+
+            if file not in moved and not (self.location / file).exists():
+                (to / file).unlink()
+
+        (to / 'index.html').symlink_to(to / '1' / 'index.html')
+
+        for folder in reversed(list(to.glob('**'))):
+            if not next(folder.iterdir(), False):
+                folder.rmdir()
 
 
 PanBlogPackage = Path(__file__).parent

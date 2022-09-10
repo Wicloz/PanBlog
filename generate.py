@@ -1,4 +1,3 @@
-from shutil import rmtree, copytree
 from globals import PanBlogConfig, PanBlogPackage, render, add_template_global, PanBlogBuild
 import sass
 from hashlib import sha384
@@ -44,8 +43,4 @@ if __name__ == '__main__':
         process()
     del history
 
-    if PanBlogConfig.output.exists():
-        rmtree(PanBlogConfig.output)
-    copytree(PanBlogBuild.build, PanBlogConfig.output)
-
-    (PanBlogConfig.output / 'index.html').symlink_to(PanBlogConfig.output / '1/index.html')
+    PanBlogBuild.deploy(PanBlogConfig.output)
