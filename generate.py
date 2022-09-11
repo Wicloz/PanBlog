@@ -6,14 +6,16 @@ from hashlib import sha384
 from post import PanBlogPost
 
 if __name__ == '__main__':
-    css = {}
-    for path in (PanBlogPackage / 'resources/bootstrap.scss', PanBlogPackage / 'resources/custom.scss'):
+    stylesheets = []
+    for path in (PanBlogPackage / 'resources').glob('*'):
+        if path.name.startswith('_') or path.suffix != '.scss':
+            continue
         data = sass.compile(filename=str(path), output_style='compressed')
         checksum = sha384(data.encode('UTF8')).hexdigest()
         with PanBlogBuild.write(f'{checksum}.css', 'UTF8', None) as fp:
             fp.write(data)
-        css[path.stem] = checksum + '.css'
-    add_template_global('css', css)
+        stylesheets.append(f'/{checksum}.css')
+    add_template_global('stylesheets', stylesheets)
 
     history = []
     count = 1
