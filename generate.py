@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from globals import PanBlogConfig, PanBlogPackage, render, add_template_global, PanBlogBuild
 import sass
 from hashlib import sha384
