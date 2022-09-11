@@ -53,14 +53,18 @@ class _PanBlogBuildClass:
     def deploy(self, to):
         moved = set()
 
+        def move(relative):
+            (to / relative).parent.mkdir(parents=True, exist_ok=True)
+            (self.location / relative).rename(to / relative)
+            moved.add(relative)
+
         for file in self.location.glob('**/*'):
             if not file.is_file():
                 continue
             file = file.relative_to(self.location)
 
             if not (to / file).exists():
-                (self.location / file).rename(to / file)
-                moved.add(file)
+                move(file)
                 continue
 
             changed = False
@@ -76,8 +80,7 @@ class _PanBlogBuildClass:
 
             if changed:
                 (to / file).unlink()
-                (self.location / file).rename(to / file)
-                moved.add(file)
+                move(file)
 
         for file in to.glob('**/*'):
             if not file.is_file():
