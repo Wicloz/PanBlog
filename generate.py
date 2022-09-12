@@ -5,6 +5,7 @@ import sass
 from hashlib import sha384
 from post import PanBlogPost
 from math import ceil
+from shutil import copyfileobj
 
 if __name__ == '__main__':
     stylesheets = []
@@ -17,6 +18,11 @@ if __name__ == '__main__':
             fp.write(data)
         stylesheets.append(f'/{checksum}.css')
     add_template_global('stylesheets', stylesheets)
+
+    for file in (PanBlogPackage / 'resources' / 'fonts').glob('*'):
+        with open(file, 'rb') as src:
+            with PanBlogBuild.write(f'fonts/{file.name}', None, file) as dst:
+                copyfileobj(src, dst)
 
     posts = []
     for file in sorted(PanBlogConfig.posts.glob('*/*/*/*')):
