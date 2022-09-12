@@ -23,6 +23,7 @@ class _PanBlogConfigClass:
         self.posts = Path(data.get('posts', 'posts'))
         self.output = Path(data.get('output', 'output'))
         self.author = data.get('author', 'Wicloz')
+        self.mathjax = data.get('mathjax', False)
 
 
 class _PanBlogBuildClass:
@@ -100,5 +101,7 @@ class _PanBlogBuildClass:
 PanBlogPackage = Path(__file__).parent
 PanBlogConfig = _PanBlogConfigClass()
 PanBlogTemplates = Environment(loader=FileSystemLoader(PanBlogPackage / 'templates'))
-add_template_global('author', PanBlogConfig.author)
 PanBlogBuild = _PanBlogBuildClass()
+
+add_template_global('author', PanBlogConfig.author)
+add_template_global('mathjax', PanBlogConfig.mathjax)
