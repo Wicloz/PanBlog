@@ -4,6 +4,7 @@ from globals import PanBlogConfig, PanBlogPackage, render, add_template_global, 
 import sass
 from hashlib import sha384
 from post import PanBlogPost
+from math import ceil
 
 if __name__ == '__main__':
     stylesheets = []
@@ -17,34 +18,24 @@ if __name__ == '__main__':
         stylesheets.append(f'/{checksum}.css')
     add_template_global('stylesheets', stylesheets)
 
-    history = []
-    count = 1
-
-
-    def process():
-        page = render('index.html', title='Recent Posts', posts=history, current=count)
-        with PanBlogBuild.write(f'{count}/index.html', 'UTF8', None) as fp:
-            fp.write(page)
-
-
-    for file in reversed(list(PanBlogConfig.posts.glob('*/*/*/*'))):
+    posts = []
+    for file in sorted(PanBlogConfig.posts.glob('*/*/*/*'), reverse=True):
         if not file.is_file():
             continue
-
         parts = file.parts
-        post = PanBlogPost(parts[-4], parts[-3], parts[-2], parts[-1])
-        preview = post.process()
+        posts.append(PanBlogPost(parts[-4], parts[-3], parts[-2], parts[-1]))
 
-        if count < 10:
-            history.append(preview)
+    pages = min(ceil(len(posts) / 5), 9)
 
-        if len(history) == 5:
-            process()
-            history = []
-            count += 1
+    for page in range(1, pages + 1):
+        previews = []
+        for _ in range(min(len(posts), 5)):
+            previews.append(posts.pop().process())
 
-    if history:
-        process()
-    del history
+        with PanBlogBuild.write(f'{page}/index.html', 'UTF8', None) as fp:
+            fp.write(render('index.html', title='Recent Posts', previews=previews, current=page, total=pages))
+
+    while posts:
+        posts.pop().process()
 
     PanBlogBuild.deploy(PanBlogConfig.output)
