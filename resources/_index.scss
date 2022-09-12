@@ -1,0 +1,52 @@
+@import "variables";
+
+.footer {
+  @include foreground;
+  padding: $spacing;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar {
+  @include foreground;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+
+  a {
+    @include foreground;
+    @include hover;
+    padding: $spacing;
+  }
+
+  span {
+    padding: $spacing;
+  }
+}
+
+.pagination {
+  display: flex;
+
+  a {
+    @include foreground;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding: $spacing;
+  }
+
+  a:not(.active):not(.disabled) {
+    @include hover;
+  }
+
+  .active {
+    background-color: $links;
+    color: $dark;
+  }
+
+  .disabled {
+    @include muted;
+    pointer-events: none;
+    text-decoration: none;
+  }
+}

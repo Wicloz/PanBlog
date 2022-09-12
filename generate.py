@@ -8,16 +8,11 @@ from math import ceil
 from shutil import copyfileobj
 
 if __name__ == '__main__':
-    stylesheets = []
-    for path in (PanBlogPackage / 'resources').glob('*'):
-        if path.name.startswith('_') or path.suffix != '.scss':
-            continue
-        data = sass.compile(filename=str(path), output_style='compressed')
-        checksum = sha384(data.encode('UTF8')).hexdigest()
-        with PanBlogBuild.write(f'{checksum}.css', 'UTF8', None) as fp:
-            fp.write(data)
-        stylesheets.append(f'/{checksum}.css')
-    add_template_global('stylesheets', stylesheets)
+    data = sass.compile(filename=f'{PanBlogPackage}/resources/combined.scss', output_style='compressed')
+    checksum = sha384(data.encode('UTF8')).hexdigest()
+    with PanBlogBuild.write(f'{checksum}.css', 'UTF8', None) as fp:
+        fp.write(data)
+    add_template_global('stylesheet', f'/{checksum}.css')
 
     for file in (PanBlogPackage / 'resources' / 'fonts').glob('*'):
         with open(file, 'rb') as src:

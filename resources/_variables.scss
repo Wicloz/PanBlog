@@ -1,10 +1,23 @@
-@import "bootstrap/scss/functions";
+$dark: #212529;
+$muted: #909294;
+$links: #0080ff;
+$spacing: 1rem;
 
-$body-bg: black;
-$body-color: white;
+@mixin hover {
+  &:hover {
+    filter: brightness(150%);
+  }
+}
 
-@import "bootstrap/scss/variables";
-@import "bootstrap/scss/mixins";
+@mixin foreground {
+  background-color: $dark;
+}
 
-$card-bg: $dark;
-$card-border-radius: 0;
+@mixin muted {
+  color: $muted;
+}
+
+@mixin content {
+  max-width: 24cm;
+  width: 100%;
+}

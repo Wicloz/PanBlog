@@ -1,20 +1,12 @@
 {% extends "base.html" %}
 {% block pagination %}
 
-<nav>
-  <ul class="pagination">
-    <li class="page-item {% if current == 1 %}disabled{% endif %}">
-      <a class="page-link" href="/{{ current - 1 }}/">Previous</a>
-    </li>
-    {% for i in range(1, total + 1) %}
-    <li class="page-item {% if current == i %}active{% endif %}">
-      <a class="page-link" href="/{{ i }}/">{{ i }}</a>
-    </li>
-    {% endfor %}
-    <li class="page-item {% if current == total %}disabled{% endif %}">
-      <a class="page-link" href="/{{ current + 1 }}/">Next</a>
-    </li>
-  </ul>
+<nav class="pagination">
+  <a class="{% if current == 1 %}disabled{% endif %}" href="/{{ current - 1 }}/">Previous</a>
+  {% for i in range(1, total + 1) %}
+  <a class="{% if current == i %}active{% endif %}" href="/{{ i }}/">{{ i }}</a>
+  {% endfor %}
+  <a class="{% if current == total %}disabled{% endif %}" href="/{{ current + 1 }}/">Next</a>
 </nav>
 
 {% endblock %}

@@ -1,3 +1,0 @@
-[submodule "resources/bootstrap"]
-	path = resources/bootstrap
-	url = https://github.com/twbs/bootstrap.git
