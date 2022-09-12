@@ -19,7 +19,7 @@ if __name__ == '__main__':
     add_template_global('stylesheets', stylesheets)
 
     posts = []
-    for file in sorted(PanBlogConfig.posts.glob('*/*/*/*'), reverse=True):
+    for file in sorted(PanBlogConfig.posts.glob('*/*/*/*')):
         if not file.is_file():
             continue
         parts = file.parts
