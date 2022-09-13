@@ -34,7 +34,14 @@ if __name__ == '__main__':
             previews.append(posts.pop().process())
 
         with PanBlogBuild.write(f'{page}/index.html', 'UTF8', None) as fp:
-            fp.write(render('index.html', title='Recent Posts', previews=previews, current=page, total=pages))
+            fp.write(render(
+                page='index.html',
+                title='Recent Posts',
+                previews=previews,
+                current=page,
+                total=pages,
+                canonical=f'{PanBlogConfig.domain}/{page}/',
+            ))
 
     while posts:
         posts.pop().process()

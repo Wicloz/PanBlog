@@ -12,11 +12,14 @@ class PanBlogPost:
         self.input = PanBlogConfig.posts / year / month / day / file
         self.created = date(int(year), int(month), int(day))
         self.title = file.split('.', 1)[0]
-        self.link = f'/posts/{year}/{month}/{day}/{slugify(self.title)}/'
+        self.pid = f'{year}/{month}/{day}/{slugify(self.title)}'
+        self.link = f'/posts/{self.pid}/'
         self.output = PurePath(self.link).relative_to('/')
 
     def process(self):
         created = self.created.strftime('%B %d, %Y')
+        canonical = PanBlogConfig.domain + self.link
+
         soup = str(BeautifulSoup(run(
             ('pandoc', '--mathml', '--to=html', self.input), capture_output=True,
         ).stdout, 'lxml'))
@@ -29,7 +32,7 @@ class PanBlogPost:
                 with PanBlogBuild.write(self.output / file.relative_to(extra), None, file) as dst:
                     copyfileobj(src, dst)
 
-        page = render('post.html', document=soup, title=self.title, date=created)
+        page = render('post.html', document=soup, title=self.title, date=created, pid=self.pid, canonical=canonical)
         with PanBlogBuild.write(self.output / 'index.html', 'UTF8', self.input) as fp:
             fp.write(page)
 

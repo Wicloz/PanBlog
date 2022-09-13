@@ -25,6 +25,10 @@ class _PanBlogConfigClass:
         self.author = data.get('author', 'Wicloz')
         self.mathjax = data.get('mathjax', False)
 
+        self.domain = ''
+        if 'domain' in data:
+            self.domain = data['domain'].rstrip('/')
+
 
 class _PanBlogBuildClass:
     def __init__(self):
