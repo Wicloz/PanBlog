@@ -7,13 +7,13 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  margin-top: auto;
 }
 
 .navbar {
   @include foreground;
   width: 100%;
   display: flex;
-  justify-content: flex-start;
   text-align: center;
 
   a {
@@ -51,4 +51,14 @@
     pointer-events: none;
     text-decoration: none;
   }
+}
+
+.content {
+  max-width: 24cm;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing;
+  padding: $spacing;
+  align-items: center;
 }

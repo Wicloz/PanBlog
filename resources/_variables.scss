@@ -16,8 +16,3 @@ $spacing: 1rem;
 @mixin muted {
   color: $muted;
 }
-
-@mixin content {
-  max-width: 24cm;
-  width: 100%;
-}

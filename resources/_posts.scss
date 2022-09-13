@@ -2,7 +2,7 @@
 
 .post-title {
   @include foreground;
-  @include content;
+  width: 100%;
   padding: $spacing 2 * $spacing;
   display: flex;
   justify-content: space-between;
@@ -20,7 +20,7 @@
 
 .post-wrapper {
   @include foreground;
-  @include content;
+  width: 100%;
   overflow: hidden;
 
   .post-content {
@@ -29,7 +29,7 @@
 }
 
 .post-preview {
-  @include content;
+  width: 100%;
 
   .post-shadow {
     position: absolute;
