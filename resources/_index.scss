@@ -6,6 +6,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .navbar {
@@ -13,6 +14,7 @@
   width: 100%;
   display: flex;
   justify-content: flex-start;
+  text-align: center;
 
   a {
     @include foreground;
