@@ -14,6 +14,16 @@
 {% if disqus %}
 <div class="post-comments">
   <noscript>Enable JavaScript to see Disqus comments!</noscript>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '{{ canonical }}';
+      this.page.identifier = '{{ pid }}';
+    }
+    document.getElementById('disqus_thread').style.marginBottom = '-17px';
+    document.getElementById('disqus_thread').style.marginTop = '-9px';
+  </script>
+  <script type="text/javascript" src="https://{{ disqus }}/embed.js"></script>
 </div>
 {% endif %}
 
