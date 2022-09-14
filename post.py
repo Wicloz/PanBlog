@@ -1,7 +1,7 @@
 from globals import PanBlogConfig, render, PanBlogBuild
 from datetime import date
 from slugify import slugify
-from subprocess import run
+from subprocess import run, PIPE
 from shutil import copyfileobj
 from bs4 import BeautifulSoup
 from pathlib import PurePath
@@ -21,7 +21,7 @@ class PanBlogPost:
         canonical = PanBlogConfig.domain + self.link
 
         soup = str(BeautifulSoup(run(
-            ('pandoc', '--mathml', '--to=html', self.input), capture_output=True,
+            ('pandoc', '--mathml', '--to=html', self.input), stdout=PIPE,
         ).stdout, 'lxml'))
 
         extra = self.input.parent / self.title
