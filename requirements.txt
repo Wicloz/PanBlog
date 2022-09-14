@@ -1,0 +1,7 @@
+ruamel.yaml
+Jinja2
+htmlmin
+libsass
+python-slugify
+beautifulsoup4
+lxml
