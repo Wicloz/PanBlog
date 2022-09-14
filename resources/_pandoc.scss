@@ -4,4 +4,10 @@
   img {
     max-width: 100%;
   }
+
+  mjx-container[jax="CHTML"][display="true"], math[display="block"] {
+    overflow: auto;
+    margin: 0;
+    padding: 1em 0;
+  }
 }
