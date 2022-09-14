@@ -22,6 +22,7 @@ class _PanBlogConfigClass:
 
         self.posts = Path(data.get('posts', 'posts'))
         self.output = Path(data.get('output', 'output'))
+        self.favicon = Path(data.get('favicon', 'favicon.ico'))
         self.author = data.get('author', 'Wicloz')
         self.mathjax = data.get('mathjax', False)
         self.disqus = data.get('disqus', False)

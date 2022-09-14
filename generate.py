@@ -19,6 +19,11 @@ if __name__ == '__main__':
             with PanBlogBuild.write(f'fonts/{file.name}', None, file) as dst:
                 copyfileobj(src, dst)
 
+    if PanBlogConfig.favicon.exists():
+        with open(PanBlogConfig.favicon, 'rb') as src:
+            with PanBlogBuild.write('favicon.ico', None, PanBlogConfig.favicon) as dst:
+                copyfileobj(src, dst)
+
     posts = []
     for file in sorted(PanBlogConfig.posts.glob('*/*/*/*')):
         if not file.is_file():
