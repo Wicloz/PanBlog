@@ -6,6 +6,7 @@ import gzip
 from tempfile import TemporaryDirectory
 from contextlib import contextmanager
 from shutil import copyfileobj, copystat
+from os.path import getsize
 
 
 def render(page, **kwargs):
@@ -56,6 +57,9 @@ class _PanBlogBuildClass:
         if like is not None:
             copystat(like, output)
             copystat(like, output + '.gz')
+
+        if getsize(output + '.gz') / getsize(output) > 0.9:
+            Path(output + '.gz').unlink()
 
     def deploy(self, to):
         moved = set()
