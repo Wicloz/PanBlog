@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="post-title">
   <h1>{{ title }}</h1>
   <span>{{ date }}</span>
@@ -9,4 +10,11 @@
     {{ document }}
   </div>
 </div>
+
+{% if disqus %}
+<div class="post-comments">
+  <noscript>Enable JavaScript to see Disqus comments!</noscript>
+</div>
+{% endif %}
+
 {% endblock %}

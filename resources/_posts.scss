@@ -1,5 +1,16 @@
 @import "variables";
 
+.post-comments {
+  @include foreground;
+  width: 100%;
+  padding: $spacing;
+
+  noscript {
+    margin-left: $spacing;
+    margin-right: $spacing;
+  }
+}
+
 .post-title {
   @include foreground;
   width: 100%;

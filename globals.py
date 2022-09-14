@@ -24,6 +24,7 @@ class _PanBlogConfigClass:
         self.output = Path(data.get('output', 'output'))
         self.author = data.get('author', 'Wicloz')
         self.mathjax = data.get('mathjax', False)
+        self.disqus = data.get('disqus', False)
 
         self.domain = ''
         if 'domain' in data:
@@ -109,3 +110,4 @@ PanBlogBuild = _PanBlogBuildClass()
 
 add_template_global('author', PanBlogConfig.author)
 add_template_global('mathjax', PanBlogConfig.mathjax)
+add_template_global('disqus', PanBlogConfig.disqus)
