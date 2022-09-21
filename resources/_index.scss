@@ -30,14 +30,14 @@
 .pagination {
   display: flex;
 
-  a {
+  a, span {
     @include foreground;
     border-left: 1px solid black;
     border-right: 1px solid black;
     padding: $spacing;
   }
 
-  a:not(.active):not(.disabled) {
+  a:not(.active) {
     @include hover;
   }
 
@@ -46,10 +46,8 @@
     color: $dark;
   }
 
-  .disabled {
+  span {
     @include muted;
-    pointer-events: none;
-    text-decoration: none;
   }
 }
 
