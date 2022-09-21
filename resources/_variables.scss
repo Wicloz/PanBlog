@@ -1,11 +1,11 @@
 $dark: #212529;
 $muted: #909294;
-$links: #0080ff;
+$links: #ffff00;
 $spacing: 1rem;
 
 @mixin hover {
   &:hover {
-    filter: brightness(150%);
+    filter: brightness(200%);
   }
 }
 
