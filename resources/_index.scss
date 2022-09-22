@@ -11,19 +11,15 @@
 }
 
 .navbar {
-  @include foreground;
   width: 100%;
   display: flex;
-  text-align: center;
 
   a {
     @include foreground;
     @include hover;
     padding: $spacing;
-  }
-
-  span {
-    padding: $spacing;
+    text-align: center;
+    flex: 1 1 auto;
   }
 }
 
