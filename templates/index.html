@@ -22,8 +22,16 @@
 {% endblock %}
 {% block content %}
 {{ self.pagination() }}
+
 {% for preview in previews %}
 {{ preview }}
 {% endfor %}
+
+{% if not previews %}
+<div class="no-posts">
+  There is nothing here yet!
+</div>
+{% endif %}
+
 {{ self.pagination() }}
 {% endblock %}

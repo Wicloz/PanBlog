@@ -56,3 +56,11 @@
   padding: $spacing;
   align-items: center;
 }
+
+.no-posts {
+  @include foreground;
+  padding: $spacing;
+  font-size: 200%;
+  width: 100%;
+  text-align: center;
+}

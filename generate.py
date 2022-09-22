@@ -31,7 +31,7 @@ if __name__ == '__main__':
         parts = file.parts
         posts.append(PanBlogPost(parts[-4], parts[-3], parts[-2], parts[-1]))
 
-    pages = min(ceil(len(posts) / 5), 9)
+    pages = max(1, min(ceil(len(posts) / 5), 9))
 
     for page in range(1, pages + 1):
         previews = []
