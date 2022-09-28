@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 
 from globals import PanBlogConfig, PanBlogPackage, render, add_template_global, PanBlogBuild
-import sass
+from subprocess import run, PIPE
 from hashlib import sha384
 from post import PanBlogPost
 from math import ceil
 from shutil import copyfileobj
 
 if __name__ == '__main__':
-    data = sass.compile(filename=f'{PanBlogPackage}/resources/combined.scss', output_style='compressed')
+    data = run(('sass', '--style=compressed', PanBlogPackage / 'resources' / 'combined.scss'),
+               stdout=PIPE).stdout.decode('UTF8')
     checksum = sha384(data.encode('UTF8')).hexdigest()
     with PanBlogBuild.write(f'{checksum}.css', 'UTF8', None) as fp:
         fp.write(data)
