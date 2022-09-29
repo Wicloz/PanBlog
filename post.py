@@ -5,6 +5,7 @@ from subprocess import run, PIPE
 from shutil import copyfileobj
 from bs4 import BeautifulSoup
 from pathlib import PurePath
+from itertools import chain
 
 
 class PanBlogPost:
@@ -20,9 +21,15 @@ class PanBlogPost:
         created = self.created.strftime('%B %d, %Y')
         canonical = PanBlogConfig.domain + self.link
 
-        soup = str(BeautifulSoup(run(
+        soup = BeautifulSoup(run(
             ('pandoc', '--mathml', '--to=html', self.input), stdout=PIPE,
-        ).stdout, 'lxml'))
+        ).stdout, 'lxml')
+
+        for elem in chain(
+                soup.find_all(**{'name': 'math', 'display': 'block'}),
+                soup.find_all(**{'name': 'div', 'class': 'sourceCode'}),
+        ):
+            elem.wrap(soup.new_tag(**{'name': 'span', 'class': 'unbreakable'}))
 
         extra = self.input.parent / self.title
         for file in extra.glob('**/*'):
@@ -36,5 +43,5 @@ class PanBlogPost:
         with PanBlogBuild.write(self.output / 'index.html', 'UTF8', self.input) as fp:
             fp.write(page)
 
-        water = str(BeautifulSoup(soup[:10000], 'lxml'))
+        water = BeautifulSoup(str(soup)[:10000], 'lxml')
         return render('preview.html', document=water, title=self.title, date=created, link=self.link)
