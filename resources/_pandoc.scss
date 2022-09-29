@@ -9,5 +9,14 @@
     overflow-x: auto;
     overflow-y: visible;
     display: block;
+    margin: 1em 0;
+
+    table {
+      width: max-content;
+    }
+
+    pre, mjx-container {
+      margin: 0 !important;
+    }
   }
 }

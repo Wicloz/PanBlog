@@ -32,6 +32,9 @@ class PanBlogPost:
         ):
             elem.wrap(soup.new_tag(**{'name': 'span', 'class': 'unbreakable'}))
 
+        for elem in soup.find_all('table'):
+            elem.parent['class'] = 'unbreakable'
+
         extra = self.input.parent / self.title
         for file in extra.glob('**/*'):
             if not file.is_file():
