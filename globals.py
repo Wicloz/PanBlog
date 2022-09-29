@@ -25,7 +25,6 @@ class _PanBlogConfigClass:
         self.output = Path(data.get('output', 'output'))
         self.favicon = Path(data.get('favicon', 'favicon.ico'))
         self.author = data.get('author', 'Wicloz')
-        self.mathjax = data.get('mathjax', False)
         self.disqus = data.get('disqus', False)
 
         self.domain = ''
@@ -114,5 +113,4 @@ PanBlogTemplates = Environment(loader=FileSystemLoader(PanBlogPackage / 'templat
 PanBlogBuild = _PanBlogBuildClass()
 
 add_template_global('author', PanBlogConfig.author)
-add_template_global('mathjax', PanBlogConfig.mathjax)
 add_template_global('disqus', PanBlogConfig.disqus)

@@ -16,6 +16,7 @@ class PanBlogPost:
         self.pid = f'{year}/{month}/{day}/{slugify(self.title)}'
         self.link = f'/posts/{self.pid}/'
         self.output = PurePath(self.link).relative_to('/')
+        self.mathjax = False
 
     def process(self):
         created = self.created.strftime('%B %d, %Y')
@@ -39,9 +40,21 @@ class PanBlogPost:
                 with PanBlogBuild.write(self.output / file.relative_to(extra), None, file) as dst:
                     copyfileobj(src, dst)
 
-        page = render('post.html', document=soup, title=self.title, date=created, pid=self.pid, canonical=canonical)
+        page = render(
+            page='post.html',
+            document=soup,
+            title=self.title,
+            date=created,
+            pid=self.pid,
+            canonical=canonical,
+            mathjax=bool(soup.find('math')),
+        )
+
         with PanBlogBuild.write(self.output / 'index.html', 'UTF8', self.input) as fp:
             fp.write(page)
 
         water = BeautifulSoup(str(soup)[:10000], 'lxml')
+        if water.find('math'):
+            self.mathjax = True
+
         return render('preview.html', document=water, title=self.title, date=created, link=self.link)

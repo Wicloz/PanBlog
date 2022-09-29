@@ -35,9 +35,13 @@ if __name__ == '__main__':
     pages = max(1, min(ceil(len(posts) / 5), 9))
 
     for page in range(1, pages + 1):
+        mathjax = False
         previews = []
+
         for _ in range(min(len(posts), 5)):
-            previews.append(posts.pop().process())
+            post = posts.pop()
+            previews.append(post.process())
+            mathjax |= post.mathjax
 
         with PanBlogBuild.write(f'{page}/index.html', 'UTF8', None) as fp:
             fp.write(render(
@@ -47,6 +51,7 @@ if __name__ == '__main__':
                 current=page,
                 total=pages,
                 canonical=f'{PanBlogConfig.domain}/{page}/',
+                mathjax=mathjax,
             ))
 
     while posts:
