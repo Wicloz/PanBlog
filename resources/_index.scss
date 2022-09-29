@@ -48,8 +48,7 @@
 }
 
 .content {
-  max-width: 24cm;
-  width: 100%;
+  width: min(100%, 24cm);
   display: flex;
   flex-direction: column;
   gap: $spacing;
