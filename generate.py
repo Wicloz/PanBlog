@@ -9,9 +9,9 @@ from shutil import copyfileobj
 
 if __name__ == '__main__':
     data = run(('sass', '--style=compressed', PanBlogPackage / 'resources' / 'combined.scss'),
-               stdout=PIPE).stdout.decode('UTF8')
-    checksum = sha256(data.encode('UTF8')).hexdigest()[:32]
-    with PanBlogBuild.write(f'{checksum}.css', 'UTF8', None) as fp:
+               stdout=PIPE).stdout
+    checksum = sha256(data).hexdigest()[:32]
+    with PanBlogBuild.write(f'{checksum}.css', None, None) as fp:
         fp.write(data)
     add_template_global('stylesheet', f'/{checksum}.css')
 
