@@ -2,7 +2,7 @@
 
 from globals import PanBlogConfig, PanBlogPackage, render, add_template_global, PanBlogBuild
 from subprocess import run, PIPE
-from hashlib import sha384
+from hashlib import sha256
 from post import PanBlogPost
 from math import ceil
 from shutil import copyfileobj
@@ -10,7 +10,7 @@ from shutil import copyfileobj
 if __name__ == '__main__':
     data = run(('sass', '--style=compressed', PanBlogPackage / 'resources' / 'combined.scss'),
                stdout=PIPE).stdout.decode('UTF8')
-    checksum = sha384(data.encode('UTF8')).hexdigest()
+    checksum = sha256(data.encode('UTF8')).hexdigest()[:32]
     with PanBlogBuild.write(f'{checksum}.css', 'UTF8', None) as fp:
         fp.write(data)
     add_template_global('stylesheet', f'/{checksum}.css')
