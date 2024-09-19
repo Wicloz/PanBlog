@@ -57,7 +57,7 @@ class _PanBlogBuildClass:
             copystat(like, output)
             copystat(like, output + '.gz')
 
-        if getsize(output + '.gz') / getsize(output) > 0.9:
+        if getsize(output) == 0 or getsize(output + '.gz') / getsize(output) > 0.9:
             Path(output + '.gz').unlink()
 
     def deploy(self, to):
