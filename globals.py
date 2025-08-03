@@ -5,7 +5,7 @@ from htmlmin import minify
 import gzip
 from tempfile import TemporaryDirectory
 from contextlib import contextmanager
-from shutil import copyfileobj, copystat
+from shutil import copyfileobj, copystat, move
 from os.path import getsize
 
 
@@ -63,9 +63,9 @@ class _PanBlogBuildClass:
     def deploy(self, to):
         moved = set()
 
-        def move(relative):
+        def move_to_build(relative):
             (to / relative).parent.mkdir(parents=True, exist_ok=True)
-            (self.location / relative).rename(to / relative)
+            move(self.location / relative, to / relative)
             moved.add(relative)
 
         for file in self.location.glob('**/*'):
@@ -74,7 +74,7 @@ class _PanBlogBuildClass:
             file = file.relative_to(self.location)
 
             if not (to / file).exists():
-                move(file)
+                move_to_build(file)
                 continue
 
             changed = False
@@ -90,7 +90,7 @@ class _PanBlogBuildClass:
 
             if changed:
                 (to / file).unlink()
-                move(file)
+                move_to_build(file)
 
         for file in to.glob('**/*'):
             if not file.is_file():
@@ -100,7 +100,7 @@ class _PanBlogBuildClass:
             if file not in moved and not (self.location / file).exists():
                 (to / file).unlink()
 
-        (to / 'index.html').symlink_to(to / '1' / 'index.html')
+        (to / 'index.html').symlink_to('1/index.html')
 
         for folder in reversed(list(to.glob('**'))):
             if not next(folder.iterdir(), False):
