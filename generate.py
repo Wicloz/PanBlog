@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 
 from globals import PanBlogConfig, PanBlogPackage, render, add_template_global, PanBlogBuild
-from subprocess import run, PIPE
+from lightningcss import bundle_css
 from hashlib import sha256
 from post import PanBlogPost
 from math import ceil
 from shutil import copyfileobj
 
 if __name__ == '__main__':
-    data = run(('sass', '--style=compressed', PanBlogPackage / 'resources' / 'combined.scss'),
-               stdout=PIPE).stdout
+    data = bundle_css(
+        str(PanBlogPackage / 'resources' / 'combined.css'),
+        minify=True,
+    ).encode('UTF8')
     checksum = sha256(data).hexdigest()[:32]
     with PanBlogBuild.write(f'{checksum}.css', None, None) as fp:
         fp.write(data)

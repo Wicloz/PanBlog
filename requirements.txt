@@ -4,3 +4,4 @@ htmlmin
 python-slugify
 beautifulsoup4
 lxml
+lightningcss
