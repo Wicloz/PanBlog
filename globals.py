@@ -1,7 +1,8 @@
 from ruamel.yaml import YAML
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
-from htmlmin import minify
+from bs4 import BeautifulSoup
+import re
 import gzip
 from tempfile import TemporaryDirectory
 from contextlib import contextmanager
@@ -10,7 +11,11 @@ from os.path import getsize
 
 
 def render(page, **kwargs):
-    return minify(PanBlogTemplates.get_template(page).render(**kwargs))
+    rendered = PanBlogTemplates.get_template(page).render(**kwargs)
+    soup = BeautifulSoup(rendered, 'lxml')
+    minified = re.sub(r'>\s+<', '><', soup.prettify(formatter='html').strip())
+
+    return minified
 
 
 def add_template_global(key, value):

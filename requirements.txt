@@ -1,6 +1,5 @@
 ruamel.yaml
 Jinja2
-htmlmin
 python-slugify
 beautifulsoup4
 lxml
