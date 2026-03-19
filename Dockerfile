@@ -1,5 +1,6 @@
-FROM python:alpine
-RUN apk add --no-cache pandoc-cli
+FROM python:slim
+
+RUN apt update && apt install -y pandoc && rm -rf /var/*/apt/
 
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -Ur /app/requirements.txt
